@@ -1,5 +1,5 @@
 ## Schedule 🌵
-일정 관리 앱 서버 만들기
+### 일정 관리 앱 서버 만들기
 ---
 ## API
 | 기능         | Method | API PATH             | Request | Response   | 상태코드 : 성공 | 상태코드 : 실패 |
@@ -37,7 +37,7 @@ Success - 201 CREATED
 Fail - 400 BAD REQUEST
  ``` json
 {
-  "msg" : "title은 필수값입니다."
+    "msg" : "`title`은 필수값입니다."
  }
 ```
 </details>
@@ -123,7 +123,7 @@ Success - 200 OK
 Fail - 400 BAD REQUEST
 ```json
 {
-	"msg" : "`title`은 필수값입니다."
+    "msg" : "`title`은 필수값입니다."
 }
 ```
 </details>
