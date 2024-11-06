@@ -1,7 +1,11 @@
 package com.example.schedules.dto;
 
+import lombok.Getter;
+
+@Getter
 public class SchedulesUpdateRequestDto {
-    private String user_name;
-    private String title;
-    private String content;
+        private String username;
+        private String password;
+        private String title;
+        private String content;
 }

@@ -8,19 +8,28 @@ import java.time.LocalDateTime;
 
 @Getter
 public class SchedulesResponseDto {
-    private Long id;
-    private String username;
-    private String title;
-    private String contents;
-    private LocalDateTime create_date;
-    private LocalDateTime update_date;
+    private final Long id;
+    private final String username;
+    private final String title;
+    private final String content;
+    private final LocalDateTime createDate;
+    private final LocalDateTime updateDate;
     
     public SchedulesResponseDto(Schedules schedules) {
         this.id = schedules.getId();
-        this.username = schedules.getUser_name();
+        this.username = schedules.getUsername();
         this.title = schedules.getTitle();
-        this.contents = schedules.getContents();
-        this.create_date = schedules.getCreate_date();
-        this.update_date = schedules.getUpdate_date();
+        this.content = schedules.getContent();
+        this.createDate = schedules.getCreateDate();
+        this.updateDate = schedules.getUpdateDate();
+    }
+
+    public SchedulesResponseDto(SchedulesResponseDto savedSchedules) {
+        this.id = savedSchedules.getId();
+        this.username = savedSchedules.getUsername();
+        this.title = savedSchedules.getTitle();
+        this.content = savedSchedules.getContent();
+        this.createDate = savedSchedules.getCreateDate();
+        this.updateDate = savedSchedules.getUpdateDate();
     }
 }

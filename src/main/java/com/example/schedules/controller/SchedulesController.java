@@ -2,47 +2,62 @@ package com.example.schedules.controller;
 
 import com.example.schedules.dto.SchedulesRequestDto;
 import com.example.schedules.dto.SchedulesResponseDto;
-import com.example.schedules.entity.Schedules;
+import com.example.schedules.dto.SchedulesUpdateRequestDto;
+import com.example.schedules.dto.SchedulesUpdateResponseDto;
+import com.example.schedules.service.SchedulesService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
-@RestController
+@RestController // @Controller + @ResponseBody
 @RequestMapping("/schedules") // prefix
 public class SchedulesController {
-    private final Map<Long, Schedules> schedulesList = new HashMap<>();
+
+    /*
+    생성자 주입 @param schedulesService
+     */
+    private final SchedulesService schedulesService;
+
+    public SchedulesController(SchedulesService schedulesService) {
+        this.schedulesService = schedulesService;
+    }
 
     // 일정 생성
-    @PostMapping("/schedules")
-    public SchedulesResponseDto createSchedules(@RequestBody SchedulesRequestDto requestDto) {
-        Long scheduleId = schedulesList.isEmpty() ? 1 : Collections.max(schedulesList.keySet()) + 1;
-        // 요청받은 데이터로 schedules 객체 생성
-        Schedules schedules = new Schedules(scheduleId, requestDto.getUser_name(), requestDto.getTitle(), requestDto.getContent());
-        // DB에 schedules 저장
-        schedulesList.put(scheduleId, schedules);
-        return new SchedulesResponseDto(schedules);
+    @PostMapping
+    public ResponseEntity<SchedulesResponseDto> createSchedule(@RequestBody SchedulesRequestDto schedulesRequestDto) {
+        // Service Layer 호출, 응답
+        return new ResponseEntity<>(schedulesService.saveSchedules(schedulesRequestDto), HttpStatus.CREATED);
     }
     
-    // 일정 조회
+    // 전체 일정 조회
     @GetMapping("/schedules")
-    public SchedulesResponseDto findSchedulesById(@PathVariable Long id) {
-        Schedules schedules = schedulesList.get(id);
-        return new SchedulesResponseDto(schedules);
+    public List<SchedulesResponseDto> findAllSchedules() {
+        return schedulesService.findAllSchedules();
     }
-    
+
+    // 선택 일정 조회
+    @GetMapping("/schedules/{id}")
+    public ResponseEntity<SchedulesResponseDto> findSchedulesById(@PathVariable Long id) {
+        return new ResponseEntity<>(schedulesService.findScheduleById(id), HttpStatus.OK);
+    }
+
     // 일정 수정
     @PutMapping("/schedules/{id}")
-    public SchedulesResponseDto updateSchedulesById(@PathVariable Long id, @RequestBody SchedulesRequestDto SchedulesRequestDto) {
-        Schedules schedules = schedulesList.get(id);
-        schedules.update(SchedulesRequestDto.getUser_name(), SchedulesRequestDto.getPassword(), SchedulesRequestDto.getTitle(), SchedulesRequestDto.getContent());
-        return new SchedulesResponseDto(schedules);
+    public ResponseEntity<SchedulesUpdateResponseDto> updateSchedules(
+            @PathVariable Long id,
+            @RequestBody SchedulesUpdateRequestDto schedulesUpdateRequestDto
+    ) {
+        return new ResponseEntity<>(schedulesService.updateSchedules(id, schedulesUpdateRequestDto), HttpStatus.OK);
+        // 작성자명, 할일을 파라미터로 ?
     }
     
     // 일정 삭제
     @DeleteMapping("/schedules/{id}")
-    public void deleteSchedules(@PathVariable Long id) {
-        schedulesList.remove(id);
+    public ResponseEntity<Void> deleteSchedules(@PathVariable Long id) {
+        schedulesService.deleteSchedules(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+
+        }
     }
-}
