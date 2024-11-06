@@ -23,12 +23,8 @@ public class SchedulesServiceImpl implements SchedulesService {
 
     @Override
     public SchedulesResponseDto saveSchedules(SchedulesRequestDto schedulesRequestDto) {
-
-        // 요청받은 데이터로 Schedules 객체 생성 ID 없음
-        Schedules schedules = new Schedules(schedulesRequestDto.getTitle(), schedulesRequestDto.getContent());
-
         // DB 저장
-        SchedulesResponseDto savedSchedules = schedulesRepository.saveSchedules(schedules);
+        SchedulesResponseDto savedSchedules = schedulesRepository.saveSchedules(schedulesRequestDto);
         return new SchedulesResponseDto(savedSchedules);
 
     }
@@ -43,8 +39,7 @@ public class SchedulesServiceImpl implements SchedulesService {
     // 단건 조회
     @Override
     public SchedulesResponseDto findScheduleById(Long id) {
-        //Schedules schedules =schedulesRepository.findScheduleById(id); // 모르겠음
-        SchedulesResponseDto schedules = schedulesRepository.findScheduleById(id); //?
+        Schedules schedules =schedulesRepository.findScheduleById(id);
 
         if (schedules == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
@@ -54,7 +49,7 @@ public class SchedulesServiceImpl implements SchedulesService {
 
     // 일정 수정
     @Override
-    public SchedulesUpdateResponseDto updateScheduleById(Long id, SchedulesUpdateRequestDto schedulesUpdateRequestDto) {
+    public SchedulesUpdateResponseDto updateSchedules(Long id, SchedulesUpdateRequestDto schedulesUpdateRequestDto) {
         // schedulesRepository.findScheduleById(id);
 
         Schedules schedules = schedulesRepository.findScheduleById(id);

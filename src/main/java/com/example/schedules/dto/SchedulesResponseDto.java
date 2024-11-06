@@ -12,7 +12,6 @@ public class SchedulesResponseDto {
     private final String username;
     private final String title;
     private final String content;
-    private final LocalDateTime createDate;
     private final LocalDateTime updateDate;
     
     public SchedulesResponseDto(Schedules schedules) {
@@ -20,7 +19,6 @@ public class SchedulesResponseDto {
         this.username = schedules.getUsername();
         this.title = schedules.getTitle();
         this.content = schedules.getContent();
-        this.createDate = schedules.getCreateDate();
         this.updateDate = schedules.getUpdateDate();
     }
 
@@ -29,7 +27,6 @@ public class SchedulesResponseDto {
         this.username = savedSchedules.getUsername();
         this.title = savedSchedules.getTitle();
         this.content = savedSchedules.getContent();
-        this.createDate = savedSchedules.getCreateDate();
         this.updateDate = savedSchedules.getUpdateDate();
     }
 }

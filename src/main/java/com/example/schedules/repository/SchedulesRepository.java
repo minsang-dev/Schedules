@@ -12,13 +12,11 @@ public interface SchedulesRepository {
     // 일정 생성
     SchedulesResponseDto saveSchedules(SchedulesRequestDto schedulesRequestDto);
 
-    SchedulesResponseDto saveSchedules(Schedules schedules);
-
     List<SchedulesResponseDto> findAllSchedules();
 
-    SchedulesResponseDto findScheduleById(Long id);
+    Schedules findScheduleById(Long id);
 
-    SchedulesUpdateResponseDto updateScheduleById(Long id, SchedulesUpdateRequestDto schedulesUpdateRequestDto);
+    SchedulesUpdateResponseDto updateSchedules(Long id, SchedulesUpdateRequestDto schedulesUpdateRequestDto);
 
     void deleteSchedules(Long id, String password);
     // void deleteAllSchedules();

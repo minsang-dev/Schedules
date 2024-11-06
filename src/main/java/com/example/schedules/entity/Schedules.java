@@ -38,6 +38,8 @@ public class Schedules {
         this.password = schedulesRequestDto.getPassword();
         this.title = schedulesRequestDto.getTitle();
         this.content = schedulesRequestDto.getContent();
+        this.createDate = LocalDateTime.now();
+        this.updateDate = LocalDateTime.now();
     }
 
     public Schedules(String title, String content) {

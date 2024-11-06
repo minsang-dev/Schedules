@@ -26,12 +26,6 @@ public class SchedulesRepositoryImpl implements SchedulesRepository {
         return new SchedulesResponseDto(schedules); // 메서드의 반환타입과 return은 맞춰주기
     }
 
-
-    @Override
-    public SchedulesResponseDto saveSchedules(Schedules schedules) {
-        return null;
-    }
-
     // 일정 다건 조회
     @Override
     public List<SchedulesResponseDto> findAllSchedules() {
@@ -46,13 +40,13 @@ public class SchedulesRepositoryImpl implements SchedulesRepository {
 
     // 일정 단건 조회
     @Override
-    public SchedulesResponseDto findScheduleById(Long id) {
-        return new SchedulesResponseDto(schedulesList.get(id));
+    public Schedules findScheduleById(Long id) {
+        return schedulesList.get(id);
     }
 
     // 일정 수정
     @Override
-    public SchedulesUpdateResponseDto updateScheduleById(Long id, SchedulesUpdateRequestDto schedulesUpdateRequestDto) {
+    public SchedulesUpdateResponseDto updateSchedules(Long id, SchedulesUpdateRequestDto schedulesUpdateRequestDto) {
         Schedules schedules = schedulesList.get(id);
         if (schedulesUpdateRequestDto.getPassword().equals(schedules.getPassword())) {
             schedules.update(schedulesUpdateRequestDto);

@@ -32,29 +32,28 @@ public class SchedulesController {
     }
     
     // 전체 일정 조회
-    @GetMapping("/schedules")
+    @GetMapping
     public List<SchedulesResponseDto> findAllSchedules() {
         return schedulesService.findAllSchedules();
     }
 
     // 선택 일정 조회
-    @GetMapping("/schedules/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<SchedulesResponseDto> findSchedulesById(@PathVariable Long id) {
         return new ResponseEntity<>(schedulesService.findScheduleById(id), HttpStatus.OK);
     }
 
     // 일정 수정
-    @PutMapping("/schedules/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<SchedulesUpdateResponseDto> updateSchedules(
             @PathVariable Long id,
             @RequestBody SchedulesUpdateRequestDto schedulesUpdateRequestDto
     ) {
         return new ResponseEntity<>(schedulesService.updateSchedules(id, schedulesUpdateRequestDto), HttpStatus.OK);
-        // 작성자명, 할일을 파라미터로 ?
     }
     
     // 일정 삭제
-    @DeleteMapping("/schedules/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteSchedules(@PathVariable Long id) {
         schedulesService.deleteSchedules(id);
         return new ResponseEntity<>(HttpStatus.OK);
