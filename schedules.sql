@@ -2,11 +2,11 @@
 CREATE TABLE Schedules
 (
     id          INT         NOT NULL AUTO_INCREMENT,
-    user_name   VARCHAR(25) NOT NULL,
+    username   VARCHAR(25) NOT NULL,
     title       VARCHAR(25) NOT NULL,
     content     VARCHAR(50) NULL,
-    create_date DATETIME NULL,
-    update_date DATETIME NULL,
+    createDate DATETIME NULL,
+    updateDate DATETIME NULL,
     primary key (id)
 );
 

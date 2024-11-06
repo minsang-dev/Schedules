@@ -1,9 +1,6 @@
 package com.example.schedules.controller;
 
-import com.example.schedules.dto.SchedulesRequestDto;
-import com.example.schedules.dto.SchedulesResponseDto;
-import com.example.schedules.dto.SchedulesUpdateRequestDto;
-import com.example.schedules.dto.SchedulesUpdateResponseDto;
+import com.example.schedules.dto.*;
 import com.example.schedules.service.SchedulesService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,8 +51,8 @@ public class SchedulesController {
     
     // 일정 삭제
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSchedules(@PathVariable Long id) {
-        schedulesService.deleteSchedules(id);
+    public ResponseEntity<Void> deleteSchedules(@PathVariable Long id, @RequestBody SchedulesDeleteRequestDto dto) {
+        schedulesService.deleteSchedules(id, dto.getPassword());
         return new ResponseEntity<>(HttpStatus.OK);
 
         }

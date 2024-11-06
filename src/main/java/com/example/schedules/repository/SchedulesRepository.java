@@ -2,11 +2,10 @@ package com.example.schedules.repository;
 
 import com.example.schedules.dto.SchedulesRequestDto;
 import com.example.schedules.dto.SchedulesResponseDto;
-import com.example.schedules.dto.SchedulesUpdateRequestDto;
-import com.example.schedules.dto.SchedulesUpdateResponseDto;
 import com.example.schedules.entity.Schedules;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface SchedulesRepository {
     // 일정 생성
@@ -14,10 +13,13 @@ public interface SchedulesRepository {
 
     List<SchedulesResponseDto> findAllSchedules();
 
-    Schedules findScheduleById(Long id);
+    Optional<Schedules> findScheduleById(Long id);
 
-    SchedulesUpdateResponseDto updateSchedules(Long id, SchedulesUpdateRequestDto schedulesUpdateRequestDto);
+    Schedules findSchedulesByIdOrElseThrow(Long id);
 
-    void deleteSchedules(Long id, String password);
+    int updateSchedules(Long id, String title, String content);
+
+    int deleteSchedules(Long id, String password);
+
     // void deleteAllSchedules();
 }
