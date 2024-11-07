@@ -41,8 +41,8 @@ public class JdbcTemplateSchedulesRepository implements SchedulesRepository{
         parameters.put("content", schedulesRequestDto.getContent());
         parameters.put("username", schedulesRequestDto.getUsername());
         parameters.put("password", schedulesRequestDto.getPassword());
-        parameters.put("createDate", nowDate);
-        parameters.put("updateDate", nowDate);
+        parameters.put("create_date", nowDate);
+        parameters.put("update_date", nowDate);
 
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
 
@@ -58,7 +58,7 @@ public class JdbcTemplateSchedulesRepository implements SchedulesRepository{
 
     @Override
     public List<SchedulesResponseDto> findAllSchedules() {
-        return jdbcTemplate.query("select * from schedules order by updateDate desc", schedulesRowMapper());
+        return jdbcTemplate.query("select * from schedules order by update_date desc", schedulesRowMapper());
     }
 
     @Override
@@ -74,7 +74,7 @@ public class JdbcTemplateSchedulesRepository implements SchedulesRepository{
 
     @Override
     public int updateSchedules(Long id, String title, String content) {
-        return jdbcTemplate.update("update schedules set title = ?, content = ?, updateDate = ? where id = ?", title, content, LocalDateTime.now(), id);
+        return jdbcTemplate.update("update schedules set title = ?, content = ?, update_date = ? where id = ?", title, content, LocalDateTime.now(), id);
     }
 
     @Override
@@ -91,8 +91,8 @@ public class JdbcTemplateSchedulesRepository implements SchedulesRepository{
                         rs.getString("username"),
                         rs.getString("title"),
                         rs.getString("content"),
-                        rs.getTimestamp("createDate").toLocalDateTime(),
-                        rs.getTimestamp("updateDate").toLocalDateTime()
+                        rs.getTimestamp("create_date").toLocalDateTime(),
+                        rs.getTimestamp("update_date").toLocalDateTime()
                 );
             }
         };
@@ -108,8 +108,8 @@ public class JdbcTemplateSchedulesRepository implements SchedulesRepository{
                             rs.getString("password"),
                             rs.getString("title"),
                             rs.getString("content"),
-                            rs.getTimestamp("createDate").toLocalDateTime(),
-                            rs.getTimestamp("updateDate").toLocalDateTime()
+                            rs.getTimestamp("create_date").toLocalDateTime(),
+                            rs.getTimestamp("update_date").toLocalDateTime()
                     );
                 }
             };
