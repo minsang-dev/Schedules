@@ -22,13 +22,13 @@ import java.util.Optional;
 
 @Repository
 public class JdbcTemplateSchedulesRepository implements SchedulesRepository{
-
+    //Jdbc 템플릿 적용
     private final JdbcTemplate jdbcTemplate;
 
     public JdbcTemplateSchedulesRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
-
+    // 일정 생성
     @Override
     public SchedulesResponseDto saveSchedules(SchedulesRequestDto schedulesRequestDto) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
@@ -44,6 +44,7 @@ public class JdbcTemplateSchedulesRepository implements SchedulesRepository{
         parameters.put("create_date", nowDate);
         parameters.put("update_date", nowDate);
 
+        // 생성된 데이터의 고유 id를 반환 (Insert문으로 치환)
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
 
         return new SchedulesResponseDto(
@@ -55,28 +56,33 @@ public class JdbcTemplateSchedulesRepository implements SchedulesRepository{
                 nowDate
         );
     }
-
+    
+    // 일정 전체 조회
     @Override
     public List<SchedulesResponseDto> findAllSchedules() {
         return jdbcTemplate.query("select * from schedules order by update_date desc", schedulesRowMapper());
     }
-
+    
+    // 일정 단건 조회
     @Override
     public Optional<Schedules> findScheduleById(Long id) {
-        List<Schedules> result = jdbcTemplate.query("select * from schedules where id=?", schedulesRowMapper2(), id);
-        return result.stream().findAny();
+        List<Schedules> result = jdbcTemplate.query("select * from schedules where id = ?", schedulesRowMapper2(), id);
+        return result.stream().findAny(); // 어차피 result 개수는 0이거나 1이니까 findAny로 아무거나 가져와도 됨.
     }
+    
     @Override
     public Schedules findSchedulesByIdOrElseThrow(Long id) {
         List<Schedules> result = jdbcTemplate.query("select * from schedules where id = ?", schedulesRowMapper2(), id);
         return result.stream().findAny().orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Does not exists id = " + id));
     }
-
+    
+    // 일정 수정
     @Override
     public int updateSchedules(Long id, String title, String content) {
         return jdbcTemplate.update("update schedules set title = ?, content = ?, update_date = ? where id = ?", title, content, LocalDateTime.now(), id);
     }
-
+    
+    // 일정 삭제
     @Override
     public int deleteSchedules(Long id, String password) {
         return jdbcTemplate.update("delete from schedules where id = ? and password = ?", id, password);
@@ -84,6 +90,8 @@ public class JdbcTemplateSchedulesRepository implements SchedulesRepository{
 
     private RowMapper<SchedulesResponseDto> schedulesRowMapper() {
         return new RowMapper<SchedulesResponseDto>() {
+
+            // Resultset : query문 실행 결과값, 자바 값으로 사용 위해 rs.get-사용
             @Override
             public SchedulesResponseDto mapRow(ResultSet rs, int rowNum) throws SQLException {
                 return new SchedulesResponseDto(

@@ -22,7 +22,8 @@ public class SchedulesServiceImpl implements SchedulesService {
     public SchedulesServiceImpl(SchedulesRepository schedulesRepository) {
         this.schedulesRepository = schedulesRepository;
     }
-
+    
+    // 일정 생성
     @Override
     public SchedulesResponseDto saveSchedules(SchedulesRequestDto schedulesRequestDto) {
         // DB 저장
@@ -40,7 +41,7 @@ public class SchedulesServiceImpl implements SchedulesService {
     // 단건 조회
     @Override
     public SchedulesResponseDto findScheduleById(Long id) {
-        Optional<Schedules> optionalSchedules = schedulesRepository.findScheduleById(id);
+        Optional<Schedules> optionalSchedules = schedulesRepository.findScheduleById(id); // 추가적인 검증 부여
 
         if (optionalSchedules.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
@@ -48,12 +49,17 @@ public class SchedulesServiceImpl implements SchedulesService {
         return new SchedulesResponseDto(optionalSchedules.get());
     }
 
-    // 일정 수정
+    /*
+    * 필수값 검증
+    * 일정 수정
+    * 수정된 row가 0개라면
+    * 수정된 일정 조회
+     */
+
     @Transactional
     @Override
     public SchedulesUpdateResponseDto updateSchedules(Long id, SchedulesUpdateRequestDto schedulesUpdateRequestDto) {
         // schedulesRepository.findScheduleById(id);
-
         if (schedulesUpdateRequestDto.getTitle() == null || schedulesUpdateRequestDto.getContent() == null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Title and content are required values.");
         }
@@ -70,16 +76,17 @@ public class SchedulesServiceImpl implements SchedulesService {
         }
 
         Optional<Schedules> optionalSchedules = schedulesRepository.findScheduleById(id);
-
         return new SchedulesUpdateResponseDto(optionalSchedules.get());
 
     }
+
  // 일정 삭제
     @Override
     public void deleteSchedules(Long id,String password) {
 
         int deleteRow = schedulesRepository.deleteSchedules(id, password);
 
+        // 삭제된 row가 0개라면
         if (deleteRow == 0) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Does not exist id = " + id);
         }

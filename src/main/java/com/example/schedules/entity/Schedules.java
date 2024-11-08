@@ -16,7 +16,7 @@ public class Schedules {
 
     private Long id;
     private String username; // 작성자 명
-    private String password;
+    private String password; // 비밀번호
     private String title; // 할 일 제목
     private String content; // 할 일
     private LocalDateTime createDate; // 생성일
@@ -47,6 +47,7 @@ public class Schedules {
         this.content = content;
     }
 
+    // 일정 수정 request
     public void update(SchedulesUpdateRequestDto updateRequestDto) {
         this.username = updateRequestDto.getUsername();
         this.title = updateRequestDto.getTitle();

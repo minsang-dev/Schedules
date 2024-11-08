@@ -3,7 +3,7 @@ package com.example.schedules.dto;
 import lombok.Getter;
 
 @Getter
-public class SchedulesRequestDto {
+public class SchedulesRequestDto { //요청 정보
     private String username;
     private String password;
     private String title;

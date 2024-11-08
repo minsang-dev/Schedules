@@ -6,7 +6,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class SchedulesUpdateResponseDto {
+public class SchedulesUpdateResponseDto { //수정 응답정보
     private final Long id;
     private final String username;
     private final String title;

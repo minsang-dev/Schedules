@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface SchedulesRepository {
-    // 일정 생성
+
     SchedulesResponseDto saveSchedules(SchedulesRequestDto schedulesRequestDto);
 
     List<SchedulesResponseDto> findAllSchedules();
