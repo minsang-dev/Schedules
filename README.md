@@ -152,6 +152,3 @@ ex) Fail - 404 NOT FOUND
 }
 ```
 </details>
-
-## ERD
-<img src="https://github.com/user-attachments/assets/51458495-04a8-455d-b355-fc90e4f430a8">
